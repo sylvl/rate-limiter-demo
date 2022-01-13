@@ -1,0 +1,50 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'org.sylvl'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2021.0.0")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-integration'
+	implementation 'org.springframework.cloud:spring-cloud-stream'
+	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+	implementation 'org.springframework.integration:spring-integration-amqp'
+	implementation 'org.springframework.integration:spring-integration-jdbc'
+
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.amqp:spring-rabbit-test'
+	testImplementation 'org.springframework.integration:spring-integration-test'
+//	def junitJupiterVersion = '5.4.2'
+//	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
+//	testImplementation "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
+//	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+	testImplementation "org.testcontainers:testcontainers:1.16.2"
+	testImplementation "org.testcontainers:junit-jupiter:1.16.2"
+	testImplementation "org.testcontainers:rabbitmq:1.16.2"
+
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
